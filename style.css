@@ -12,7 +12,7 @@ body{
     position: absolute;
     z-index: 3;
     background-color: white;
-    opacity: .9;
+    opacity: 0.7;
     height: 100vh;
     width: 700px;
     right: 1px;

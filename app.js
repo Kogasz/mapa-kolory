@@ -53,14 +53,15 @@ function wylosuj() {
 
         if (dostepneWojewodztwa.length === 0) {
             zmienKolor(wylosowaneWojewodztwo, "red");
+            document.getElementById("los").innerHTML = "Wszystkie województwa zostały już wylosowane";
         } else {
             zmienKolor(wylosowaneWojewodztwo, "yellow");
+            var ilePozostalo = dostepneWojewodztwa.length;
+            document.getElementById("los").innerHTML = wylosowaneWojewodztwo
         }
     } else {
-        alert("Wszystkie województwa zostały już wylosowane.");
+        document.getElementById("los").innerHTML = "Wszystkie województwa zostały już wylosowane";
     }
-    
-    document.getElementById("los").innerHTML = wylosowaneWojewodztwo;
 }
 
 wojela.eachLayer(function (layer) {

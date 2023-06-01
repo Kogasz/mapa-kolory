@@ -11,6 +11,7 @@ map.scrollWheelZoom.disable();
 
 var wojela = L.geoJson(wojewodztwa.features).addTo(map);
 wojela.setStyle({color: "blue"})
+wojela.setStyle({fillOpacity: 0.7})
 
 var dostepneWojewodztwa = wojela.getLayers()
 
@@ -39,6 +40,9 @@ function zmienKolor(wojewodztwo, color) {
 
 var wylosowaneWojewodztwa = [];
 
+
+var czerwoneWojewodztwa = [];
+var zieloneWojewodztwa = [];
 function wylosuj() {
 
     var wylosowaneWojewodztwo = losuj();
@@ -57,9 +61,12 @@ function wylosuj() {
         if(nazwa == poprzednieWojewodztwo){
 
             zmienKolor(poprzednieWojewodztwo, "green");
+            if(poprzednieWojewodztwo !=undefined) zieloneWojewodztwa.push(poprzednieWojewodztwo);
+
         }
         if(nazwa != poprzednieWojewodztwo){
             zmienKolor(poprzednieWojewodztwo, "red");
+            if(poprzednieWojewodztwo !=undefined) czerwoneWojewodztwa.push(poprzednieWojewodztwo);
         }
            zmienKolor(wylosowaneWojewodztwo, "yellow");
             var ilePozostalo = dostepneWojewodztwa.length;
@@ -67,13 +74,59 @@ function wylosuj() {
             document.getElementById("los").innerHTML = "Zatwierdz"
     }
     if(wylosowaneWojewodztwo == null){
-        console.log("ok")
-        document.getElementById("los").remove()
-        document.getElementById("input").remove()
-        document.getElementById("ok").innerHTML = "Nie ma juz dostepnych wojewodztw!!!"
+        document.getElementById("body").innerHTML = ""
+        document.getElementById("body").style.backgroundColor = "black"
+        document.getElementById("body").setAttribute("class", "body")
+        
+        
+        const h1 = document.createElement("h1")
+        h1.innerHTML = "Twój Wynik: "
+        h1.style.color = "white"
+        document.getElementById("body").appendChild(h1)
+
+
+        const div_Z = document.createElement("div")
+        div_Z.setAttribute("id", "divz")
+        div_Z.style.height = "600px"
+        div_Z.style.width = "1000px"
+        document.getElementById("body").appendChild(div_Z)
+
+        const zielony = document.createElement("ul")
+        zielony.innerHTML = "Dobre"
+        zielony.style.color = "white"
+        zielony.setAttribute("id", "zielone")
+        div_Z.appendChild(zielony)
+
+        const czerwony = document.createElement("ul")
+        czerwony.innerHTML = "Złe"
+        czerwony.style.color = "white"
+        czerwony.setAttribute("id", "czerwone")
+        div_Z.appendChild(czerwony)
+       
+        var czerwoneLista = document.getElementById("czerwone");
+        czerwoneWojewodztwa.forEach(function (wojewodztwo) {
+            var li = document.createElement("li");
+            li.innerHTML = wojewodztwo;
+            li.style.color = "red"
+            czerwoneLista.appendChild(li);
+        });
+
+      
+        var zieloneLista = document.getElementById("zielone");
+        zieloneWojewodztwa.forEach(function (wojewodztwo) {
+            var li = document.createElement("li");
+            li.innerHTML = wojewodztwo;
+            li.style.color = "green"
+            zieloneLista.appendChild(li);
+        });
     }
 
+    
+    console.log("Czerwone województwa:", czerwoneWojewodztwa);
+    console.log("Zielone województwa:", zieloneWojewodztwa);
 }
+
+
 
 
 wojela.eachLayer(function (layer) {

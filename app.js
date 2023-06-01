@@ -1,4 +1,4 @@
-var map = L.map('map').setView([52.505, 24.5], 7);
+var map = L.map('map').setView([52, 22.5], 7);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -40,45 +40,58 @@ function zmienKolor(wojewodztwo, color) {
 var wylosowaneWojewodztwa = [];
 
 function wylosuj() {
+
     var wylosowaneWojewodztwo = losuj();
-    if (wylosowaneWojewodztwo !== null) {
+    document.getElementById("los").innerHTML = "Losuj"
+    const nazwa = document.getElementById("input").value
+    if (wylosowaneWojewodztwo !== null || dostepneWojewodztwa == 0) {
         console.log(wylosowaneWojewodztwo);
 
         wylosowaneWojewodztwa.push(wylosowaneWojewodztwo);
 
         if (wylosowaneWojewodztwa.length > 1) {
             var poprzednieWojewodztwo = wylosowaneWojewodztwa[wylosowaneWojewodztwa.length - 2];
-            zmienKolor(poprzednieWojewodztwo, "red");
+          //  zmienKolor(poprzednieWojewodztwo, "red");
         }
 
-        if (dostepneWojewodztwa.length === 0) {
-            zmienKolor(wylosowaneWojewodztwo, "red");
-            document.getElementById("los").innerHTML = "Wszystkie województwa zostały już wylosowane";
-        } else {
-            zmienKolor(wylosowaneWojewodztwo, "yellow");
-            var ilePozostalo = dostepneWojewodztwa.length;
-            document.getElementById("los").innerHTML = wylosowaneWojewodztwo
+        if(nazwa == poprzednieWojewodztwo){
+
+            zmienKolor(poprzednieWojewodztwo, "green");
         }
-    } else {
-        document.getElementById("los").innerHTML = "Wszystkie województwa zostały już wylosowane";
+        if(nazwa != poprzednieWojewodztwo){
+            zmienKolor(poprzednieWojewodztwo, "red");
+        }
+           zmienKolor(wylosowaneWojewodztwo, "yellow");
+            var ilePozostalo = dostepneWojewodztwa.length;
+        
+            document.getElementById("los").innerHTML = "Zatwierdz"
     }
+    if(wylosowaneWojewodztwo == null){
+        console.log("ok")
+        document.getElementById("los").remove()
+        document.getElementById("input").remove()
+        document.getElementById("ok").innerHTML = "Nie ma juz dostepnych wojewodztw!!!"
+    }
+
 }
+
 
 wojela.eachLayer(function (layer) {
     layer.on("mouseover", function () {
         var color = layer.options.color;
-        if (color !== "yellow" && color !== "red") {
-            layer.setStyle({ color: "green" });
+        if (color !== "yellow" && color !== "red" && color !== "green") {
+            layer.setStyle({ color: "black" });
         }
     });
 
     layer.on("mouseout", function () {
         var color = layer.options.color;
-        if (color !== "yellow" && color !== "red") {
+        if (color !== "yellow" && color !== "red" && color!=="green") {
             layer.setStyle({ color: "blue" });
         }
     });
 });
+
 
 
 
